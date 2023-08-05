@@ -33,6 +33,9 @@ int main()
     ft_list_push_front(&lst, "martin");
 
     ft_list_sort(&lst, ft_strcmp);
+    //printf("%d\n", ft_list_sort(&lst, ft_strcmp));
+
+    //printf("%d\n",ft_list_sort(&lst, ft_strcmp));
 
     // printf("%s", (char *)lst->data);
     printf("%s %s\nlistSize=%d\n", (char *)lst->data, (char *)lst->next->data, ft_list_size(lst));
