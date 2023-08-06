@@ -1,5 +1,6 @@
 section .text
     global _ft_list_sort
+    extern _myprintfunc
 
 _ft_list_sort:; rdi t_list** beginList rsi cmp function
     ; 1. argüman: RDI
@@ -26,7 +27,7 @@ _ft_list_sort:; rdi t_list** beginList rsi cmp function
         mov rax, rdi
         push rdi
         mov rdi, rax
-        mov rdi, [rdi + 8]
+        mov rdi, [rdi]
         mov rax, rdx
         cmp rax, rdi
         je retZero
@@ -35,33 +36,60 @@ _ft_list_sort:; rdi t_list** beginList rsi cmp function
         retZero:
             xor rax, rax
             jmp findPrevRet
+        prevLoop:
+            mov rdi, [rdi + 8]
         prevLoopBegin:
             mov rax, [rdi + 8]
-            cmp rax, rsi
-            jne prevLoopBegin
+            cmp rax, rdx
+            jne prevLoop
             mov rax, rdi
             jmp findPrevRet
 
     swap:
         jmp findPrev
         findPrevRet:
+        cmp rax, 0
+        jne notBegin
 
-        push rdx
-        mov rdx, [rdx + 8]
-        mov [rax + 8], rdx
-        pop rdx
-
-        mov rax, [rax + 8]
-        push rdx
-        mov rdx, [rdx + 8]
-        mov rdx, [rax + 8]
-        pop rdx
-        mov [rax + 8], rdx
+        
         pop rdi
-        mov rax, rdi
         push rdi
-        mov rdi, [rax]
+
+        mov rdi, [rdi]
+        mov rax, [rdi + 8]
+
+        push rax
+        mov rax, [rax + 8]
+        mov [rdi + 8], rax
+        pop rax
+
+        mov [rax + 8], rdi
+
+        pop rdi
+        mov [rdi], rax
+        push rdi
+        mov rdi, [rdi]
         jmp beginLoop
+
+
+        notBegin:
+            push rdx
+            mov rdx, [rdx + 8]
+            mov [rax + 8], rdx
+            pop rdx
+
+            mov rax, [rax + 8]
+            push rax
+            mov rax, [rax + 8]
+            mov [rdx + 8], rax
+            pop rax
+            mov [rax + 8], rdx
+
+            pop rdi
+            push rdi
+            mov rdi, [rdi]
+
+            jmp beginLoop
 
     compare:
         mov rax, rsi
@@ -69,13 +97,14 @@ _ft_list_sort:; rdi t_list** beginList rsi cmp function
 
         mov rsi, [rdi + 8]
         mov rsi, [rsi]
-        push rdi
+        ;push rdi
+        mov rdx, rdi
         mov rdi, [rdi]
 
         call rax
         pop rsi
-        pop rdi
-
+        ;pop rdi
+        mov rdi, rdx
         cmp rax, 0
         jg swap
         jmp compareRet

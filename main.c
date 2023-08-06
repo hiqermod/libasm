@@ -18,6 +18,11 @@ extern void ft_list_push_front(t_list **begin_list, void *data);
 extern int ft_list_size(t_list *begin_list);
 extern void ft_list_sort(t_list **begin_list, int (*cmp)());
 
+void    myprintfunc()
+{
+    printf("burasi dondu\n");
+}
+
 
 int main()
 {
@@ -31,6 +36,7 @@ int main()
     lst->next = 0;
 
     ft_list_push_front(&lst, "martin");
+    ft_list_push_front(&lst, "zonguldak");
 
     ft_list_sort(&lst, ft_strcmp);
     //printf("%d\n", ft_list_sort(&lst, ft_strcmp));
@@ -38,7 +44,7 @@ int main()
     //printf("%d\n",ft_list_sort(&lst, ft_strcmp));
 
     // printf("%s", (char *)lst->data);
-    printf("%s %s\nlistSize=%d\n", (char *)lst->data, (char *)lst->next->data, ft_list_size(lst));
+    printf("%s %s %s\nlistSize=%d\n", (char *)lst->data, (char *)lst->next->data, (char *)lst->next->next->data,ft_list_size(lst));
     //printBits(ft_strcmp(omer, a));
 
     //printf("ret_val=%lu\ndest=%lu\nsrc=%s\n", ft_strcpy(omer, a), omer, a);
